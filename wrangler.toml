@@ -1,0 +1,30 @@
+name = "simulador-importacao"
+type = "javascript"
+account_id = "YOUR_ACCOUNT_ID"
+workers_dev = true
+route = "simulador.renatoalvesfilho.com.br/*"
+zone_id = "YOUR_ZONE_ID"
+
+# Configuração de build
+build = { command = "pnpm build", cwd = "." }
+
+# Variáveis de ambiente
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+# Configuração de KV Store para cache
+[[kv_namespaces]]
+binding = "NCM_CACHE"
+id = "YOUR_KV_NAMESPACE_ID"
+preview_id = "YOUR_KV_PREVIEW_ID"
+
+# Configuração de D1 (banco de dados SQLite do Cloudflare)
+[[d1_databases]]
+binding = "DB"
+database_name = "comex_db"
+database_id = "YOUR_DATABASE_ID"
+
+# Configuração de variáveis secretas
+[env.production.secrets]
+DATABASE_URL = "YOUR_DATABASE_URL"
+OAUTH_SERVER_URL = "YOUR_OAUTH_URL"

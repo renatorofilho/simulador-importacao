@@ -1,0 +1,24 @@
+# Configuração para Cloudflare Pages
+# Este arquivo é usado para configurar o deploy automático
+
+[build]
+command = "pnpm build"
+cwd = "."
+watch_paths = ["client/**/*.tsx", "client/**/*.ts", "server/**/*.ts"]
+
+[build.upload]
+dir = "dist/public"
+
+[env.production]
+routes = [
+  { pattern = "simulador.renatoalvesfilho.com.br", zone_name = "renatoalvesfilho.com.br" }
+]
+
+# Variáveis de ambiente para produção
+[env.production.vars]
+VITE_API_URL = "https://simulador.renatoalvesfilho.com.br/api"
+NODE_ENV = "production"
+
+# Variáveis secretas (configure no painel do Cloudflare)
+# - DATABASE_URL
+# - OAUTH_SERVER_URL
