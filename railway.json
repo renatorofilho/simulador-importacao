@@ -1,9 +1,1 @@
-{
-  "$schema": "https://railway.app/railway.schema.json",
-  "build": {
-    "builder": "nixpacks"
-  },
-  "deploy": {
-    "startCommand": "pnpm install --frozen-lockfile && pnpm build && node dist/index.js"
-  }
-}
+"startCommand": "npm install && npm run build && node dist/index.js"
