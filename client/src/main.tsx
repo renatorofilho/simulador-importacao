@@ -40,8 +40,15 @@ queryClient.getMutationCache().subscribe(event => {
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
-      // Usando caminho relativo para evitar erros de URL inválida no navegador
-      url: "/api/trpc",
+      /**
+       * SOLUÇÃO DE ESPECIALISTA:
+       * Forçamos uma URL absoluta válida usando o origin do navegador.
+       * Isso evita o "TypeError: Invalid URL" causado por caminhos relativos 
+       * em certas versões do cliente tRPC/Fetch.
+       */
+      url: typeof window !== "undefined" 
+        ? `${window.location.origin}/api/trpc` 
+        : "/api/trpc",
       transformer: superjson,
       fetch(input, init) {
         return globalThis.fetch(input, {
