@@ -23,6 +23,7 @@
     "superjson": "^2.2.1",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.0.1",
+    "@radix-ui/react-tooltip": "^1.0.7",
     "tw-animate-css": "^1.0.3"
   },
   "devDependencies": {
