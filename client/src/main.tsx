@@ -13,42 +13,22 @@ const queryClient = new QueryClient();
 const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;
   if (typeof window === "undefined") return;
-
   const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
-
   if (!isUnauthorized) return;
-
   window.location.href = getLoginUrl();
 };
 
 queryClient.getQueryCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
-    const error = event.query.state.error;
-    redirectToLoginIfUnauthorized(error);
-    console.error("[API Query Error]", error);
-  }
-});
-
-queryClient.getMutationCache().subscribe(event => {
-  if (event.type === "updated" && event.action.type === "error") {
-    const error = event.mutation.state.error;
-    redirectToLoginIfUnauthorized(error);
-    console.error("[API Mutation Error]", error);
+    redirectToLoginIfUnauthorized(event.query.state.error);
   }
 });
 
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
-      /**
-       * SOLUÇÃO DE ESPECIALISTA:
-       * Forçamos uma URL absoluta válida usando o origin do navegador.
-       * Isso evita o "TypeError: Invalid URL" causado por caminhos relativos 
-       * em certas versões do cliente tRPC/Fetch.
-       */
-      url: typeof window !== "undefined" 
-        ? `${window.location.origin}/api/trpc` 
-        : "/api/trpc",
+      // USANDO CAMINHO RELATIVO SIMPLES PARA EVITAR O ERRO DE "INVALID URL"
+      url: "/api/trpc",
       transformer: superjson,
       fetch(input, init) {
         return globalThis.fetch(input, {
