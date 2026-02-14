@@ -1,8 +1,0 @@
-[install]
-cmds = ["pnpm install"]
-
-[build]
-cmds = ["pnpm build"]
-
-[setup]
-pkgs = ["pnpm", "nodejs"]
